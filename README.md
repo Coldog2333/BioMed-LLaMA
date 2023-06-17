@@ -37,7 +37,10 @@ We conducted several optimization strategies to speed up training and reduce mem
 ### Training Loss Curve
 
 Here below is the curve of training loss, where running average smoothing is applied for visualization.
-![Training Loss Curve](./documentary/biomed-llama-7b_training_curve.png)
+
+<div align="center">    
+  <img src="./documentary/biomed-llama-7b_training_curve.png" width = "505" height = "345" alt="Training Loss Curve" align=center />
+</div>
 
 ## Instruction Tuning
 Existing commercial LLMs achieve an excellent performance on medical tasks like USMLE-QA, especially when performing few-shot inference. However, they usually have tremendous number of parameters, so the inference requires many computation resources and time, especially when adding few-shot demonstrations to the inputting prompt. Finetuning on these demonstrations is also impossible. However, our model is quite smaller and we have many downstream tasks to be evaluated, so we conducted instruction tuning with these few-shot examples instead of performing in-context learning.
@@ -57,7 +60,9 @@ We collected diverse instruction tuning data from various resources:
 ### CoT ability
 After finetuning with some Chain-of-Thought (CoT) data, our model can also perform CoT prompting and therefore unlock some tricks to improve the performance of downstream tasks. 
 
-![Self_consistency](./documentary/self-consistency.png)
+<div align="center">    
+  <img src="./documentary/self-consistency.png" width = "384" height = "288" alt="Self_consistency" align=center />
+</div>
 
 ## Evaluation
 We conducted comparison between vanilla LLaMA-7B, [PMC-LLaMA-7B](https://github.com/chaoyi-wu/PMC-LLaMA), and [BioMedLM](https://github.com/stanford-crfm/BioMedLM).
