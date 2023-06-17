@@ -73,7 +73,7 @@ Note that BioMedLM was trained on the same pretraining resources but more epochs
 | ----------------- | --------- | --- | -------------------------- | ------------------------- |
 | Random          | -       | - | -                        | -                       |
 | BioMed-LLaMA-7B | 6.7B    | 2048 | 15.7774                  | **20.9322**             |
-| PMC-LLaMA-7B | 6.7B | 2048/512 | | |
+| PMC-LLaMA-7B | 6.7B | 2048/512 | 36.8191 | |
 | LLaMA-7B        | 6.7B    | 2048 | 20.1107                  | 29.0583                 |
 | BioMedLM        | 2.7B    | 1024 | **15.6959**              | 18.6799 (1024)          |
 
@@ -81,4 +81,8 @@ Note that BioMedLM was trained on the same pretraining resources but more epochs
 We also evaluate models on USMLE examination.
 Noted that BioMedLM introduced extra trainable parameters (i.e. linear classifier) for each downstream tasks. In order to produce a unified model for various medical tasks, we didn't introduce linear classifier but finetune all downstream tasks by formulating them as the text generation task.
 
+Evaluation for generative multi-choice QA is difficult. Fortunately, after finetuning, models can generate the correct answer within given options. For those cases that the model generates open-ended answers, we use a sentence similarity model, SimCSE, to serve as the examinator (answer parser). Specifically, we compute similarities between the generated answer and each option, and choose the option with the highest similarity as the final answer. And finally, we calculate the accuracy of the models.
 
+<div align="center">    
+  <img src="./documentary/usmle_examination_performance.png" width = "3900" height = "1800" alt="Self_consistency" align=center />
+</div>
