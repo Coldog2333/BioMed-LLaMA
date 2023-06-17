@@ -83,6 +83,4 @@ Noted that BioMedLM introduced extra trainable parameters (i.e. linear classifie
 
 Evaluation for generative multi-choice QA is difficult. Fortunately, after finetuning, models can generate the correct answer within given options. For those cases that the model generates open-ended answers, we use a sentence similarity model, SimCSE, to serve as the examinator (answer parser). Specifically, we compute similarities between the generated answer and each option, and choose the option with the highest similarity as the final answer. And finally, we calculate the accuracy of the models.
 
-<div align="center">    
-  <img src="./documentary/usmle_examination_performance.png" width = "3900" height = "1800" alt="Self_consistency" align=center />
-</div>
+![USMLE](./documentary/usmle_examination_performance.png)
