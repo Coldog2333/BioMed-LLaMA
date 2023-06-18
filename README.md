@@ -8,7 +8,7 @@ BioMed-LLaMA-7b is a 7b large language model (LLM) pretrained continuously from 
 
 ## Pretraining resources
 
-[The Pile](http://pile.eleuther.ai/) is a large-scale high-quality dataset of diverse text sources that is designed to be used for pretraining large language models. It contains 825 GiB of text from 22 diverse sources, including Wikipedia, PubMed abstracts, PubMed Central papers, etc. We extracted the PubMed-abstract and PubMed-central subsets from The Pile as our pretraining resources.
+[The Pile](http://pile.eleuther.ai/) is a large-scale high-quality dataset of diverse text sources that is designed to be used for pretraining large language models. It contains 825 GiB of text from 22 diverse sources, including Wikipedia, PubMed abstracts, PubMed Central papers, etc. We extracted the PubMed-abstract and PubMed-central subsets from The Pile as our pretraining resources, which contains 30M abstracts and 5M papers.
 
 After extraction, we obtained 213 GiB of text containing about 50B tokens. We trained the LLaMA-7b model on these data for 1 epoch to avoid overfitting to the pretraining data.
 
@@ -72,10 +72,10 @@ Note that BioMedLM was trained on the same pretraining resources but more epochs
 | Model           | #Params | Max_seq_len |PubMed-Abstract/word_ppl | PubMed-Central/word_ppl |
 | ----------------- | --------- | --- | -------------------------- | ------------------------- |
 | Random          | -       | - | -                        | -                       |
-| BioMed-LLaMA-7B | 6.7B    | 2048 | 15.7774                  | **20.9322**             |
-| PMC-LLaMA-7B | 6.7B | 2048/512 | 36.8191 | |
-| LLaMA-7B        | 6.7B    | 2048 | 20.1107                  | 29.0583                 |
-| BioMedLM        | 2.7B    | 1024 | **15.6959**              | 18.6799 (1024)          |
+| BioMed-LLaMA-7B | 6.7B    | 2048     | 15.7774                  | 20.9322             |
+| PMC-LLaMA-7B    | 6.7B    | 2048/512 | 36.8191/36.9617          | 39.5381/- |
+| LLaMA-7B        | 6.7B    | 2048     | 20.1107                  | 29.0583                 |
+| BioMedLM        | 2.7B    | 1024     | **15.6959**              | **18.6799**          |
 
 ### USMLE (MedQA) - 4 options
 We also evaluate models on USMLE examination.
