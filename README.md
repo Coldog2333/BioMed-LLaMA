@@ -1,6 +1,6 @@
 # BioMed-LLaMA: Continuous Pretraining LLaMA with Biomedical Abstracts and Papers
 
-[Junfeng Jiang](https://coldog2333.github.io/)<sup>1</sup>, Qiang Zhang<sup>2</sup>, Aizawa Akiko<sup>1</sup>, Renjing Xu<sup>2</sup>
+[Junfeng Jiang](https://coldog2333.github.io/)<sup>1</sup>, Qiang Zhang<sup>2</sup>, Akiko Aizawa<sup>1</sup>, Renjing Xu<sup>2</sup>
 
 [University of Tokyo](https://www.i.u-tokyo.ac.jp/index_e.shtml)<sup>1</sup>    [The Hong Kong University of Science and Technology](https://hkust.edu.hk/)<sup>2</sup>
 
@@ -57,15 +57,15 @@ Note that BioMedLM was trained on the same pretraining resources but more epochs
 | Model           | Strategy | PubMed-A | PubMed-C | USMLE (4/5)       | MedMCQA    | PubMedQA   |
 | ----------------- | ---- | ---------------------- | --------------------- | ------------------------- | ------------ | ------------ |
 | Random          | -  | -                    | -                   | 0.25 / 0.5                       | 0.25          | 0.33        |
-| BioMed-LLaMA-7B | 0-shot | 15.7774              | 20.9322             | **0.3535** / **0.3032** | 0.2921     | 0.6160     |
+| GPT-Neo (2.7B)  | 0-shot | 19.1207              | 20.8701             | 0.2781 / 0.2412         | 0.2570     | 0.5640     |
+| BioMedLM (2.7B) | 0-shot | **15.6959**          | **18.6799**         | 0.2993 / 0.2624         | 0.2744     | 0.5520     |
 | LLaMA-7B        | 0-shot | 20.1107              | 29.0583             | 0.3339 / 0.2742         | **0.2933** | **0.7520** |
 | PMC-LLaMA-7B    | 0-shot | 36.8191              | 39.5381             | 0.3441 / 0.2883         | 0.2850     | 0.6640     |
-| BioMedLM (2.7B) | 0-shot | **15.6959**          | **18.6799**         | 0.2993 / 0.2624         | 0.2744     | 0.5520     |
-| GPT-Neo (2.7B)  | 0-shot | 19.1207              | 20.8701             | 0.2781 / 0.2412         | 0.2570     | 0.5640     |
-| BioMed-LLaMA-7B | few-shot | -              | -             | **0.3668** (3) / **0.3229** (3)         | **0.3007** (10)     | 0.702 (1)     |
+| BioMed-LLaMA-7B | 0-shot | 15.7774              | 20.9322             | **0.3535** / **0.3032** | 0.2921     | 0.6160     |
 | LLaMA-7B | few-shot | -              | -             | 0.3661 (3) / 0.3174(3) | 0.2991 (10) | **0.713** (1) |
-| BioMed-LLaMA-7B | fine-tune | -              | -             | unstable         |  **0.5357**    | 0.763     |
+| BioMed-LLaMA-7B | few-shot | -              | -             | **0.3668** (3) / **0.3229** (3)         | **0.3007** (10)     | 0.702 (1)     |
 | LLaMA-7B | fine-tune | -              | -             | unstable | 0.4994 | **0.764** |
+| BioMed-LLaMA-7B | fine-tune | -              | -             | unstable         |  **0.5357**    | 0.763     |
 
 *PubMed-A: Pile/PubMed-Abstracts, PubMed-C: Pile/PubMed-Central, USMLE: MedQA-USMLEQA
 
@@ -89,10 +89,27 @@ We collected diverse instruction tuning data from various resources:
 | [codex-cot](https://arxiv.org/pdf/2207.08143v3.pdf)                    | 3       | 0.006%    | Medical |
 
 
-After instruction tuning, we can find that BioMed-LLaMA can benefit from the instruction tuning, especially on MedQA-USMLE and PubMedQA. However, the performance on MedMCQA is not improved.
+After instruction tuning, we can find that BioMed-LLaMA can benefit more than vanilla LLaMA from the instruction tuning, especially on MedQA-USMLE. However, the performances on MedMCQA and PubMedQA are not improved comparing to finetuning. We think that there are three possible reasons:
+1. During instruction tuning, even though we have a large number of training samples for MedMCQA and PubMedQA, these data only contain part of the original training data. So the models may not be able to learn the full distribution of the training data, and therefore perform worse than finetuning with the whole training datasets.
+2. The questions of MedMCQA are quite short, whereas other instruction tuning data generally has longer input.
+3. The answers of PubMedQA are quite short (Yes/No/Maybe), making them more difficult to optimize during jointly training.
 
 
 | Model           | Strategy | USMLE (4)       | MedMCQA    | PubMedQA   |
 | ----------------- | ---- |  ------------------------- | ------------ | ------------ |
-| BioMed-LLaMA-7B | instructed |  **0.487** | **0.1893** | **0.757**
-| LLaMA-7B | instructed |  0.4391 | 0.1743 | 0.744 |
+| LLaMA-7B | instructed |  0.4391 | 0.4236 | 0.744 |
+| BioMed-LLaMA-7B | instructed |  **0.487** | **0.4475** | **0.757**
+
+
+## Citation
+Please cite this repo if you find the codes or contents are useful for your research.
+```
+@misc{alpaca,
+  author = {Junfeng Jiang, Qiang Zhang, Akiko Aizawa, and Renjing Xu},
+  title = {BioMed-LLaMA: Continuous Pretraining LLaMA with Biomedical Abstracts and Papers},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/Coldog2333/BioMed-LLaMA}},
+}
+```
