@@ -2,7 +2,7 @@
 
 [Junfeng Jiang](https://coldog2333.github.io/)<sup>1</sup>, Qiang Zhang<sup>2</sup>, Aizawa Akiko<sup>1</sup>, Renjing Xu<sup>2</sup>
 
-[University of Tokyo](https://www.i.u-tokyo.ac.jp/index_e.shtml)<sup>1</sup>    ][The Hong Kong University of Science and Technology](https://hkust.edu.hk/)<sup>2</sup>
+[University of Tokyo](https://www.i.u-tokyo.ac.jp/index_e.shtml)<sup>1</sup>    [The Hong Kong University of Science and Technology](https://hkust.edu.hk/)<sup>2</sup>
 
 ## Introduction
 
@@ -12,7 +12,7 @@ In this repository, we also provide the codes for continuous pretraining, finetu
 
 ## Pretraining resources
 
-[The Pile](http://pile.eleuther.ai/) is a large-scale high-quality dataset of diverse text sources that is designed to be used for pretraining large language models. It contains 825 GiB of text from 22 diverse sources, including Wikipedia, PubMed abstracts, PubMed Central papers, etc. We extracted the **PubMed-abstract** and **PubMed-central** subsets from The Pile as our pretraining resources, which contains approximately 30M abstracts and 5M papers.
+[The Pile](http://pile.eleuther.ai/) is a large-scale high-quality dataset of diverse text sources that is designed to be used for pretraining large language models. It contains 825 GiB of text from 22 diverse sources, including Wikipedia, PubMed abstracts, PubMed Central papers, etc. We extracted the **PubMed-abstract** and **PubMed-central** subsets from The Pile as our pretraining resources, which contain approximately 30M abstracts and 5M papers.
 
 After extraction, we obtained 213 GiB of text containing about 63B tokens. We trained the LLaMA-7b model on these data for 1 epoch to avoid overfitting to the pretraining data.
 
@@ -54,7 +54,7 @@ Since MedQA and MedMCQA are not implemented by EleutherAI, we implemented them b
 
 Note that BioMedLM was trained on the same pretraining resources but more epochs (6 epochs in total containing 300B tokens), and PMC-LLaMA-7B was trained on 4.8M PubMedCentral papers for 5 epochs.
 
-| Model           | Strategy | Pile/PubMed-Abstract | Pile/PubMed-Central | MedQA-USMLE (4/5)       | MedMCQA    | PubMedQA   |
+| Model           | Strategy | PubMed-A | PubMed-C | USMLE (4/5)       | MedMCQA    | PubMedQA   |
 | ----------------- | ---- | ---------------------- | --------------------- | ------------------------- | ------------ | ------------ |
 | Random          | -  | -                    | -                   | 0.25 / 0.5                       | 0.25          | 0.33        |
 | BioMed-LLaMA-7B | 0-shot | 15.7774              | 20.9322             | **0.3535** / **0.3032** | 0.2921     | 0.6160     |
@@ -62,13 +62,12 @@ Note that BioMedLM was trained on the same pretraining resources but more epochs
 | PMC-LLaMA-7B    | 0-shot | 36.8191              | 39.5381             | 0.3441 / 0.2883         | 0.2850     | 0.6640     |
 | BioMedLM (2.7B) | 0-shot | **15.6959**          | **18.6799**         | 0.2993 / 0.2624         | 0.2744     | 0.5520     |
 | GPT-Neo (2.7B)  | 0-shot | 19.1207              | 20.8701             | 0.2781 / 0.2412         | 0.2570     | 0.5640     |
-| ----------------- | ---- | ---------------------- | --------------------- | ------------------------- | ------------ | ------------ |
 | BioMed-LLaMA-7B | few-shot | -              | -             | **0.3668** (3) / **0.3229** (3)         | **0.3007** (10)     | 0.702 (1)     |
 | LLaMA-7B | few-shot | -              | -             | 0.3661 (3) / 0.3174(3) | 0.2991 (10) | **0.713** (1) |
-| ----------------- | ---- | ---------------------- | --------------------- | ------------------------- | ------------ | ------------ |
 | BioMed-LLaMA-7B | fine-tune | -              | -             | unstable         |  **0.5357**    | 0.763     |
 | LLaMA-7B | fine-tune | -              | -             | unstable | 0.4994 | **0.764** |
 
+*PubMed-A: Pile/PubMed-Abstracts, PubMed-C: Pile/PubMed-Central, USMLE: MedQA-USMLEQA
 
 ## Instruction Tuning
 
@@ -79,8 +78,8 @@ We collected diverse instruction tuning data from various resources:
 | Source                                                                 | #Sample | MixtureP | Domain  |
 | ------------------------------------------------------------------------ | --------- | ------------ | --------- |
 | MedQA-USMLE/train                                                        | 10178   | 21.45%    | Medical |
-| MedMCQA/train                                                            | 182822   | 25.69%    | Medical |
-| PubMedQA/train                                                           | 211269   | 14.84%    | Medical |
+| [MedMCQA/train](https://huggingface.co/datasets/medmcqa)             | 182822   | 25.69%    | Medical |
+| [PubMedQA/train](https://huggingface.co/datasets/pubmed_qa)         | 211269   | 14.84%    | Medical |
 | [AlpacaDataCleaned](https://github.com/gururise/AlpacaDataCleaned)     | 51760   | 18.18%   | Open    |
 | [visual-med-alpaca](https://github.com/cambridgeltl/visual-med-alpaca) | 54412   | 19.11%   | Medical |
 | [medpalm](https://arxiv.org/pdf/2212.13138.pdf)                       | 24       | 0.05%    | Medical |
@@ -93,7 +92,7 @@ We collected diverse instruction tuning data from various resources:
 After instruction tuning, we can find that BioMed-LLaMA can benefit from the instruction tuning, especially on MedQA-USMLE and PubMedQA. However, the performance on MedMCQA is not improved.
 
 
-| Model           | Strategy | Pile/PubMed-Abstract | Pile/PubMed-Central | MedQA-USMLE (4)       | MedMCQA    | PubMedQA   |
-| ----------------- | ---- | ---------------------- | --------------------- | ------------------------- | ------------ | ------------ |
-| BioMed-LLaMA-7B | instructed | -              | -             | **0.487** | **0.1893** | **0.757**
-| LLaMA-7B | instructed | -              | -             | 0.4391 | 0.1743 | 0.744 |
+| Model           | Strategy | USMLE (4)       | MedMCQA    | PubMedQA   |
+| ----------------- | ---- |  ------------------------- | ------------ | ------------ |
+| BioMed-LLaMA-7B | instructed |  **0.487** | **0.1893** | **0.757**
+| LLaMA-7B | instructed |  0.4391 | 0.1743 | 0.744 |
