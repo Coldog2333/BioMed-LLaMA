@@ -7,11 +7,10 @@
 <h4 align="center">
     <p>
         <b>English</b> |
-        <a href="https://github.com/Coldog2333/BioMed-LLaMA/blob/master/documentary/README_zh.md">简体中文</a> |
-        <a href="https://github.com/Coldog2333/BioMed-LLaMA/blob/master/documentary/README_jp.md">日本語</a> |
+        <a href="https://github.com/OptimalScale/LMFlow/blob/main/readme/README_zh.md">简体中文</a> |
+        <a href="https://github.com/OptimalScale/LMFlow/blob/main/readme/README_jp.md">日本語</a> |
     <p>
 </h4>
-
 ## Introduction
 
 BioMed-LLaMA-7b is a large language model (LLM) having 7 billion parameters pretrained continuously from MetaAI's LLaMA-7b checkpoint on biomedical abstracts and papers from The Pile, namely, the PubMed-abstract and PubMed-central subsets.
@@ -41,7 +40,7 @@ The model was trained on an 8-node HPC cluster containing 32 NVIDIA A100-80GB GP
 
 We conducted several optimization strategies to speed up training and reduce memory consumption.
 
-+ We used [PyTorch FSDP](https://pytorch.org/docs/stable/fsdp.html) to enable model parallelism. However, since the network bandwidth across nodes in our cluster is limited, we adopted **hybrid sharing** strategy to reduce node-wise communication cost. If you need this feature for your project, you can install the modified version of transformers from here: [Coldog2333/transformers](https://github.com/Coldog2333/transformers) (based on transformers v4.28.1).
++ We used [PyTorch FSDP](https://pytorch.org/docs/stable/fsdp.html) to enable model parallelism. However, since the network bandwidth across nodes in our cluster is limited, we adopted **hybrid sharing** strategy to reduce node-wise communication cost.
 + Gradient accumulation is also applied to reduce GPU-wise communication cost.
 + We also used [xformers](https://github.com/facebookresearch/xformers) to conduct effective attention computation to reduce memory consumption and speed up training.
 + Mixed precision training (bf16+tf32) is also used to reduce memory consumption and speed up training. Though the data type of LLaMA's model weights is float16, we didn't observe any difference between fp16 and bf16 training in our preliminary experiments.
