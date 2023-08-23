@@ -68,17 +68,17 @@ Note that BioMedLM was trained on the same pretraining resources but more epochs
 
 
 | 模型           | 评估方法 | PubMed-A | PubMed-C | USMLE (4/5)       | MedMCQA    | PubMedQA   |
-| ----------------- | ---- | ---------------------- | --------------------- | ------------------------- | ------------ | ------------ |
-| Random          | -  | -                    | -                   | 0.25 / 0.5                       | 0.25          | 0.33        |
-| GPT-Neo (2.7B)  | 0-shot | 19.1207              | 20.8701             | 0.2781 / 0.2412         | 0.2570     | 0.5640     |
-| BioMedLM (2.7B) | 0-shot | **15.6959**          | **18.6799**         | 0.2993 / 0.2624         | 0.2744     | 0.5520     |
-| LLaMA-7B        | 0-shot | 20.1107              | 29.0583             | 0.3339 / 0.2742         | **0.2933** | **0.7520** |
-| PMC-LLaMA-7B    | 0-shot | 36.8191              | 39.5381             | 0.3441 / 0.2883         | 0.2850     | 0.6640     |
-| BioMed-LLaMA-7B | 0-shot | 15.7774              | 20.9322             | **0.3535** / **0.3032** | 0.2921     | 0.6160     |
-| LLaMA-7B | few-shot | -              | -             | 0.3661 (3) / 0.3174(3) | 0.2991 (10) | **0.713** (1) |
-| BioMed-LLaMA-7B | few-shot | -              | -             | **0.3668** (3) / **0.3229** (3)         | **0.3007** (10)     | 0.702 (1)     |
-| LLaMA-7B | fine-tune | -              | -             | unstable | 0.4994 | **0.764** |
-| BioMed-LLaMA-7B | fine-tune | -              | -             | unstable         |  **0.5357**    | 0.763     |
+| ----------------- | ----------- | ------------- | ------------- | --------------------------------- | ----------------- | --------------- |
+| Random          | -         | -           | -           | 0.25 / 0.5                      | 0.25            | 0.33          |
+| GPT-Neo (2.7B)  | 0-shot    | 19.1207     | 20.8701     | 0.2781 / 0.2412                 | 0.2570          | 0.5640        |
+| BioMedLM (2.7B) | 0-shot    | **15.6959** | **18.6799** | 0.2993 / 0.2624                 | 0.2744          | 0.5520        |
+| LLaMA-7B        | 0-shot    | 20.1107     | 29.0583     | 0.3339 / 0.2742                 | **0.2933**      | **0.7520**    |
+| PMC-LLaMA-7B    | 0-shot    | 36.8191     | 39.5381     | 0.3441 / 0.2883                 | 0.2850          | 0.6640        |
+| BioMed-LLaMA-7B | 0-shot    | 15.7774     | 20.9322     | **0.3535** / **0.3032**         | 0.2921          | 0.6160        |
+| LLaMA-7B        | few-shot  | -           | -           | 0.3661 (3) / 0.3174(3)          | 0.2991 (10)     | **0.713** (1) |
+| BioMed-LLaMA-7B | few-shot  | -           | -           | **0.3668** (3) / **0.3229** (3) | **0.3007** (10) | 0.702 (1)     |
+| LLaMA-7B        | fine-tune | -           | -           | 0.3946±0.008                   | 0.4994          | **0.764**     |
+| BioMed-LLaMA-7B | fine-tune | -           | -           | 0.4072±0.012                   | **0.5357**      | 0.763         |
 
 *PubMed-A: Pile/PubMed-Abstracts, PubMed-C: Pile/PubMed-Central, USMLE: MedQA-USMLEQA
 
@@ -110,21 +110,33 @@ Existing commercial LLMs achieve an excellent performance on medical tasks like 
 3. PubMedQA的答案非常短（Yes/No/Maybe），这使得在联合训练过程中更难优化。
 
 
-| Model           | Strategy | USMLE (4)       | MedMCQA    | PubMedQA   |
-| ----------------- | ---- |  ------------------------- | ------------ | ------------ |
-| LLaMA-7B | instructed |  0.4391 | 0.4236 | 0.744 |
-| BioMed-LLaMA-7B | instructed |  **0.487** | **0.4475** | **0.757**
+| Model           | Strategy   | USMLE (4) | MedMCQA    | PubMedQA  |
+| ----------------- | ------------ | ----------- | ------------ | ----------- |
+| LLaMA-7B        | instructed | 0.4391    | 0.4236     | 0.744     |
+| BioMed-LLaMA-7B | instructed | **0.487** | **0.4475** | **0.757** |
 
+## 致谢
+感谢香港科技大学和JST SPRING（次世代研究者挑戦的研究プログラム）在计算资源和资金上的支持。感谢MetaAI分享Llama模型。感谢其他研究人员分享他们的数据和代码。
+另外特别感谢[@anchen1011](https://github.com/anchen1011) 对本研究提供的宝贵建议。
 
 ## 引用
 如果本仓库的代码或内容对你的研究有帮助，请引用本仓库。
 ```
-@misc{alpaca,
+@misc{biomedllama,
   author = {Junfeng Jiang, Qiang Zhang, Akiko Aizawa, and Renjing Xu},
   title = {BioMed-LLaMA: Continuous Pretraining LLaMA with Biomedical Abstracts and Papers},
   year = {2023},
   publisher = {GitHub},
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/Coldog2333/BioMed-LLaMA}},
+}
+```
+
+```bibtex
+@article{touvron2023llama,
+  title={LLaMA: Open and Efficient Foundation Language Models},
+  author={Touvron, Hugo and Lavril, Thibaut and Izacard, Gautier and Martinet, Xavier and Lachaux, Marie-Anne and Lacroix, Timoth{\'e}e and Rozi{\`e}re, Baptiste and Goyal, Naman and Hambro, Eric and Azhar, Faisal and Rodriguez, Aurelien and Joulin, Armand and Grave, Edouard and Lample, Guillaume},
+  journal={arXiv preprint arXiv:2302.13971},
+  year={2023}
 }
 ```
