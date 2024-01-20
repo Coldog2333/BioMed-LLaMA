@@ -51,7 +51,7 @@ The Pile是一个大规模的、高质量的、多样化文本数据集，旨在
 下面是训练时的损失曲线。为了更好地展示，我们对损失进行了平滑处理。
 
 <div align="center">  
-  <img src="./documentary/biomed-llama-7b_training_curve.png" width = "505" height = "345" alt="训练损失曲线" align=center />
+  <img src="./biomed-llama-7b_training_curve.png" width = "505" height = "345" alt="训练损失曲线" align=center />
 </div>
 
 ## 评估
